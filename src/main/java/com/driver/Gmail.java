@@ -17,6 +17,7 @@ public class Gmail extends Email {
         super(emailId);
         this.inboxCapacity = inboxCapacity;
         this.iCount = 0;
+        this.tCount = 0;
         this.inbox = new TreeMap<>();
         this.trash = new TreeMap<>();
     }
@@ -27,9 +28,10 @@ public class Gmail extends Email {
         // 1. Each mail in the inbox is distinct.
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
 
-        if(inbox.size() >= this.inboxCapacity) {
-            Inbox tMail = inbox.pollFirstEntry().getValue();
+        if(inbox.size() == this.inboxCapacity) {
+            Inbox tMail = inbox.firstEntry().getValue();
             trash.put(++tCount, tMail);
+            inbox.pollFirstEntry();
         }
         Inbox newEmail = new Inbox(date, sender, message);
         inbox.put(++iCount, newEmail);
