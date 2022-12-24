@@ -10,7 +10,7 @@ public class Gmail extends Email {
 
     private int iCount;
     TreeMap<Integer, Inbox> inbox;
-    TreeMap<Integer, Trash> trash;
+    TreeMap<Integer, Inbox> trash;
     private int tCount;
 
     public Gmail(String emailId, int inboxCapacity) {
@@ -29,7 +29,7 @@ public class Gmail extends Email {
 
         if(inbox.size() == this.inboxCapacity) {
             Inbox tMail = inbox.firstEntry().getValue();
-            trash.put(++tCount, new Trash(tMail.getDate(), tMail.getSender(), tMail.getMessage()));
+            trash.put(++tCount, tMail);
         }
         Inbox newEmail = new Inbox(date, sender, message);
         inbox.put(++iCount, newEmail);
@@ -43,8 +43,8 @@ public class Gmail extends Email {
         for(Map.Entry<Integer, Inbox> mail : inbox.entrySet()) {
             Inbox iMail = mail.getValue();
             if(iMail.getMessage().equals(message)) {
-                Trash tMail = new Trash(iMail.getDate(), iMail.sender, iMail.getMessage());
-                trash.put(++this.tCount, tMail);
+//                Trash tMail = new Trash(iMail.getDate(), iMail.sender, iMail.getMessage());
+                trash.put(++this.tCount, iMail);
                 inbox.remove(mail.getKey());
                 this.iCount--;
                 return;
